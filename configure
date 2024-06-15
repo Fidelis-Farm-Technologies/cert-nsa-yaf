@@ -18084,19 +18084,19 @@ then :
     if test "x$withval" != "xno"; then
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libndpi >= 2.0 libndpi < 3.0.0" >&5
-printf %s "checking for libndpi >= 2.0 libndpi < 3.0.0... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libndpi >= 2.0 libndpi <= 4.8.0" >&5
+printf %s "checking for libndpi >= 2.0 libndpi <= 4.8.0... " >&6; }
 
 if test -n "$libndpi_CFLAGS"; then
     pkg_cv_libndpi_CFLAGS="$libndpi_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libndpi >= 2.0 libndpi < 3.0.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libndpi >= 2.0 libndpi < 3.0.0") 2>&5
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libndpi >= 2.0 libndpi <= 4.8.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libndpi >= 2.0 libndpi <= 4.8.0") 2>&5
   ac_status=$?
   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_libndpi_CFLAGS=`$PKG_CONFIG --cflags "libndpi >= 2.0 libndpi < 3.0.0" 2>/dev/null`
+  pkg_cv_libndpi_CFLAGS=`$PKG_CONFIG --cflags "libndpi >= 2.0 libndpi <= 4.8.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -18108,12 +18108,12 @@ if test -n "$libndpi_LIBS"; then
     pkg_cv_libndpi_LIBS="$libndpi_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libndpi >= 2.0 libndpi < 3.0.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libndpi >= 2.0 libndpi < 3.0.0") 2>&5
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libndpi >= 2.0 libndpi <= 4.8.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libndpi >= 2.0 libndpi <= 4.8.0") 2>&5
   ac_status=$?
   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_libndpi_LIBS=`$PKG_CONFIG --libs "libndpi >= 2.0 libndpi < 3.0.0" 2>/dev/null`
+  pkg_cv_libndpi_LIBS=`$PKG_CONFIG --libs "libndpi >= 2.0 libndpi <= 4.8.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -18134,21 +18134,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        libndpi_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libndpi >= 2.0 libndpi < 3.0.0" 2>&1`
+	        libndpi_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libndpi >= 2.0 libndpi <= 4.8.0" 2>&1`
         else
-	        libndpi_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libndpi >= 2.0 libndpi < 3.0.0" 2>&1`
+	        libndpi_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libndpi >= 2.0 libndpi <= 4.8.0" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$libndpi_PKG_ERRORS" >&5
 
 
-            as_fn_error $? "Cannot find a suitable libndpi (>= 2.0, < 3.0.0) (Try setting PKG_CONFIG_PATH): $libndpi_PKG_ERRORS" "$LINENO" 5
+            as_fn_error $? "Cannot find a suitable libndpi (>= 2.0, <- 4.8.0) (Try setting PKG_CONFIG_PATH): $libndpi_PKG_ERRORS" "$LINENO" 5
 
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
-            as_fn_error $? "Cannot find a suitable libndpi (>= 2.0, < 3.0.0) (Try setting PKG_CONFIG_PATH): $libndpi_PKG_ERRORS" "$LINENO" 5
+            as_fn_error $? "Cannot find a suitable libndpi (>= 2.0, <- 4.8.0) (Try setting PKG_CONFIG_PATH): $libndpi_PKG_ERRORS" "$LINENO" 5
 
 else
 	libndpi_CFLAGS=$pkg_cv_libndpi_CFLAGS

@@ -459,9 +459,9 @@ AC_ARG_WITH([ndpi],
         [enable NDPI application labeling (requires the ndpi library)]),
 [
     if test "x$withval" != "xno"; then
-        PKG_CHECK_MODULES([libndpi], [libndpi >= 2.0 libndpi < 3.0.0],
+        PKG_CHECK_MODULES([libndpi], [libndpi >= 2.0 libndpi <= 4.8.0],
         [],[
-            AC_MSG_ERROR([Cannot find a suitable libndpi (>= 2.0, < 3.0.0) (Try setting PKG_CONFIG_PATH): $libndpi_PKG_ERRORS])
+            AC_MSG_ERROR([Cannot find a suitable libndpi (>= 2.0, <- 4.8.0) (Try setting PKG_CONFIG_PATH): $libndpi_PKG_ERRORS])
         ])
         if test "x$nopayload" == "xtrue"; then
             AC_MSG_ERROR([nDPI cannot be enabled if payload processing is disabled])

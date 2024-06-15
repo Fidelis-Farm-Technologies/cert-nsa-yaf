@@ -413,15 +413,18 @@ typedef struct yfFlow_st {
      * packet round-trip time; useful for decomposing biflows into uniflows.
      */
     int32_t         rdtime;
-#ifdef YAF_ENABLE_APPLABEL
+#if defined(YAF_ENABLE_APPLABEL) || defined(YAF_ENABLE_DPI)
     /** Application label for this flow */
     uint16_t        appLabel;
+#endif
+#if defined(YAF_ENABLE_APPLABEL) || defined(YAF_ENABLE_DPI)    
     /** The ypDPIFlowCtx_t for this flow */
     void           *dpictx;
 #endif /* ifdef YAF_ENABLE_APPLABEL */
 #ifdef YAF_ENABLE_NDPI
     uint16_t        ndpi_master;
     uint16_t        ndpi_sub;
+    struct ndpi_flow_struct *ndpi_flow;
 #endif
     /** Flow termination reason (YAF_END_ macros, per IPFIX standard) */
     uint8_t         reason;

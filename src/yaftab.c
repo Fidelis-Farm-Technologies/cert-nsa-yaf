@@ -187,6 +187,7 @@ typedef struct yfFlowIPv4_st {
 #ifdef YAF_ENABLE_NDPI
     uint16_t          ndpi_master;
     uint16_t          ndpi_sub;
+    struct ndpi_flow_struct *ndpi_flow;
 #endif
     uint8_t           reason;
     uint8_t           pcap_serial;
@@ -819,6 +820,7 @@ yfFlowFree(
                       fn->f.rval.paybounds);
     }
 #endif /* ifdef YAF_ENABLE_PAYLOAD */
+
 #ifdef YAF_ENABLE_HOOKS
     /* let the hook free its context */
     yfHookFlowFree(&(fn->f));
@@ -826,6 +828,14 @@ yfFlowFree(
 
 #ifdef YAF_ENABLE_APPLABEL
     ydFreeFlowContext(&(fn->f));
+#endif
+
+#ifdef YAF_ENABLE_NDPI
+    /* release  ndpi_flow_struct */
+    if (fn->f.ndpi_flow) {
+        ndpi_flow_free(fn->f.ndpi_flow);
+        fn->f.ndpi_flow = NULL;
+    }
 #endif
 
 #ifdef YAF_ENABLE_FPEXPORT
@@ -1382,7 +1392,11 @@ yfFlowTabAlloc(
         NDPI_PROTOCOL_BITMASK all;
         set_ndpi_malloc(yf_ndpi_malloc);
         set_ndpi_free(yf_ndpi_free);
-        flowtab->ndpi_struct = ndpi_init_detection_module();
+        //set_ndpi_flow_malloc(yf_ndpi_malloc);
+        //set_ndpi_flow_free(yf_ndpi_free);
+
+        ndpi_init_prefs init_prefs = ndpi_no_prefs;
+        flowtab->ndpi_struct = ndpi_init_detection_module(init_prefs);
         if (flowtab->ndpi_struct == NULL) {
             g_warning("Could not initialize NDPI");
             return NULL;
@@ -1395,6 +1409,8 @@ yfFlowTabAlloc(
             ndpi_load_protocols_file(flowtab->ndpi_struct,
                                      ftconfig->ndpi_proto_file);
         }
+
+        ndpi_finalize_initialization(flowtab->ndpi_struct);
     }
 #endif /* ifdef YAF_ENABLE_NDPI */
 
@@ -1587,6 +1603,14 @@ yfFlowGetNode(
 
 #ifdef YAF_ENABLE_APPLABEL
     ydAllocFlowContext(&(fn->f));
+#endif
+
+#ifdef YAF_ENABLE_NDPI
+    fn->f.ndpi_flow = (struct ndpi_flow_struct *)ndpi_flow_malloc(SIZEOF_FLOW_STRUCT);
+    if (fn->f.ndpi_flow == NULL) {
+        g_warning("Could not initialize NDPI flow structure");     
+    }
+    memset(fn->f.ndpi_flow, 0, SIZEOF_FLOW_STRUCT);    
 #endif
 
     /* All done */
@@ -2589,27 +2613,23 @@ yfNDPIApplabel(
     uint8_t      *payload,
     size_t        paylen)
 {
-    struct ndpi_flow_struct *nflow;
-    struct ndpi_id_struct src, dst;
-    ndpi_protocol proto;
-
     if (paylen == 0) {
         return;
     }
 
-    nflow = malloc(sizeof(struct ndpi_flow_struct));
-    memset(nflow, 0, sizeof(struct ndpi_flow_struct));
-    memset(&src, 0, sizeof(struct ndpi_id_struct));
-    memset(&dst, 0, sizeof(struct ndpi_id_struct));
+    if (flow->ndpi_flow == NULL) {
+        return;
+    }
 
-    proto = ndpi_detection_process_packet(flowtab->ndpi_struct, nflow, payload,
-                                          paylen, flow->etime, &src, &dst);
-    flow->ndpi_master = proto.master_protocol;
-    flow->ndpi_sub = proto.app_protocol;
+    ndpi_protocol l7_proto = ndpi_detection_process_packet(flowtab->ndpi_struct, flow->ndpi_flow, payload,
+                                          paylen, flow->etime, NULL); 
 
+    if (ndpi_is_protocol_detected(flowtab->ndpi_struct,l7_proto) != 0) {                                       
+        flow->ndpi_master = l7_proto.master_protocol;
+        flow->ndpi_sub = l7_proto.app_protocol;
+    }
     /* g_debug("proto is %d other is %d", proto.master_protocol,
      * proto.protocol); */
-    ndpi_free_flow(nflow);
 }
 
 

@@ -207,7 +207,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/README.in \
 	$(top_srcdir)/include/yaf/config.h.in \
 	$(top_srcdir)/lua/src/lauxlib.h $(top_srcdir)/lua/src/lua.h \
 	$(top_srcdir)/lua/src/luaconf.h $(top_srcdir)/lua/src/lualib.h \
-	AUTHORS NEWS autoconf/compile autoconf/config.guess \
+	AUTHORS NEWS README autoconf/compile autoconf/config.guess \
 	autoconf/config.sub autoconf/depcomp autoconf/install-sh \
 	autoconf/ltmain.sh autoconf/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
